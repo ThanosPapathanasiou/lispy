@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mpc.h"
+#include "../lib/mpc.h"
 #include "lval.h"
 
 #define true 1
@@ -20,6 +20,7 @@
   }
 
   void add_history(char* unused) {}
+  
 #else
 
   #include <editline/readline.h>

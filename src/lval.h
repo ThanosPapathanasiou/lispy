@@ -1,4 +1,4 @@
-#include "mpc.h"
+#include "../lib/mpc.h"
 
 enum { LVAL_ERR, LVAL_NUM, LVAL_SYM, LVAL_SEXPR };
 
