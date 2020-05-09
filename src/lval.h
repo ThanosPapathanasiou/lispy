@@ -18,3 +18,7 @@ lval* lval_eval(lval* v);
 void lval_println(lval* v);
 
 void lval_del(lval* v);
+
+lval* lval_num(long x);
+
+lval* lval_err(char* m);
