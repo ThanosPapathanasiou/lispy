@@ -1,6 +1,6 @@
 #include "../lib/mpc.h"
 
-enum { LVAL_ERR, LVAL_NUM, LVAL_SYM, LVAL_SEXPR };
+enum { LVAL_ERR, LVAL_NUM, LVAL_SYM, LVAL_SEXPR, LVAL_QEXPR };
 
 typedef struct lval {
   int type;
