@@ -20,7 +20,7 @@
   }
 
   void add_history(char* unused) {}
-  
+
 #else
 
   #include <editline/readline.h>
@@ -71,18 +71,3 @@ int main(int argc, char** argv) {
   
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
