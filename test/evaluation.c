@@ -55,23 +55,24 @@ bool evaluate(char* input, lval* expected) {
   mpc_parser_t* Lispy     = mpc_new("lispy");
     
   mpca_lang(MPCA_LANG_DEFAULT,
-    "                                             \
-        number  : /-?[0-9]+/ ;                    \
-        symbol  : '+' | '-' | '*' | '/'           \
-                | \"list\" | \"head\" | \"tail\"  \
-                | \"eval\" | \"join\" ;           \
-        sexpr   : '(' <expr>* ')' ;               \
-        qexpr   : '{' <expr>* '}' ;               \
-        expr    : <number> | <symbol>             \
-                | <sexpr>  | <qexpr> ;            \
-        lispy   : /^/ <expr>* /$/ ;               \
+    "                                               \
+        number  : /-?[0-9]+/ ;                      \
+        symbol  : /[a-zA-Z0-9_+\\-*\\/\\\\=<>!&]+/ ;\
+        sexpr   : '(' <expr>* ')' ;                 \
+        qexpr   : '{' <expr>* '}' ;                 \
+        expr    : <number> | <symbol>               \
+                | <sexpr>  | <qexpr> ;              \
+        lispy   : /^/ <expr>* /$/ ;                 \
     ",
     Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
+
+  lenv* e = lenv_new();
+  lenv_add_builtins(e);
 
   bool result = false;
   mpc_result_t r;
   if(mpc_parse("<stdin>", input, Lispy, &r)) {
-    lval* x = lval_eval(lval_read(r.output));
+    lval* x = lval_eval(e, lval_read(r.output));
     result = equals(x, expected);
     lval_del(x);
     mpc_ast_delete(r.output);
@@ -79,6 +80,10 @@ bool evaluate(char* input, lval* expected) {
     mpc_err_print(r.error);
     mpc_err_delete(r.error);
   }
+
+  lenv_del(e);
+  mpc_cleanup(6, Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
+  
   return result;
 }
 
