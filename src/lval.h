@@ -11,15 +11,25 @@ typedef lval*(*lbuiltin)(lenv*, lval*);
 
 struct lval {
   int type;
+
+  // basic
   long num;
   char* err;
   char* sym;
-  lbuiltin fun;
+  
+  // function
+  lbuiltin builtin;
+  lenv* env;
+  lval* formals;
+  lval* body;
+
+  // expression
   int count;
-  struct lval** cell;
+  lval** cell;
 };
 
 struct lenv {
+  lenv* par;
   int count;
   char** syms;
   lval** vals;
@@ -40,6 +50,8 @@ lval* lval_err(char* fmt, ...);
 // lisp environment
 
 lenv* lenv_new(void);
+
+lenv* lenv_copy(lenv* e);
 
 void lenv_del(lenv* e);
 
