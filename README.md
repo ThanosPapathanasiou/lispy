@@ -9,6 +9,12 @@ make run
 ```
 That should build the project, run the program and start the interactive prompt.
 
+``` lisp
+λispy Version 0.0.7
+Press Ctrl+c to exit
+λ> 
+```
+
 Once you have a working prompt you can run simple operations like the following: 
 
 ``` lisp 
@@ -23,7 +29,11 @@ Error: Division by zero.
 
 λ> + (+ 1 2) (- 5 3)
 5
+```
 
+It also supports more complicated operations like:
+
+``` lisp
 λ> +
 <function>
 
@@ -41,4 +51,33 @@ Error: Unbound Symbol 'x'
 
 λ> x
 100
+
+λ> def {add} (\ {x y} {+ x y})
+()
+λ> add 1 2
+3
 ```
+
+It supports lambda operations: 
+
+``` lisp
+λ> \ {x y} {+ x y}
+(\ {x y} {+ x y})
+
+λ> (\ {x y} {+ x y}) 10 20
+30
+```
+
+You can even use lambda operations to make function declaration easier.
+
+``` lisp
+λ> def {fun} (\ {args body} {def (head args) (\ (tail args) body)})
+()
+
+λ> fun {add x y} {+ x y}
+()
+
+λ> add 1 2
+3
+```
+
