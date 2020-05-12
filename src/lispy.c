@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     ",
     Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 
-  puts("λispy Version 0.0.7");
+  puts("λispy Version 0.0.9");
   puts("Press Ctrl+c to exit\n");
 
   lenv* e = lenv_new();
@@ -59,9 +59,11 @@ int main(int argc, char** argv) {
 
     mpc_result_t r;
     if(mpc_parse("<stdin>", input, Lispy, &r)) {
+      
       lval* x = lval_eval(e, lval_read(r.output));
       lval_println(x);
       lval_del(x);
+
       mpc_ast_delete(r.output);
     } else {
         mpc_err_print(r.error);
