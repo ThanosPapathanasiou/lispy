@@ -73,6 +73,11 @@ static void test_equality() {
       && "test_equality");
 }
 
+static void test_definition() {
+  bool undefined = evaluate("x", lval_err("Unbound Symbol 'x'"));
+  assert(undefined && "test_definition");
+}
+
 int main() {
     test_addition();
     test_subtraction();
@@ -81,6 +86,7 @@ int main() {
     test_division_by_zero();
     test_multiplication();
     test_equality();
+    test_definition();
 }
 
 // helper functions
