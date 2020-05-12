@@ -4,22 +4,14 @@
 
 bool equals(lval* a, lval* b);
 bool evaluate(char* input, lval* expected);
-static void test_addition();
-static void test_negation();
-static void test_division_by_zero();
-static void test_division();
-static void test_multiplication();
-
-int main() {
-    test_addition();
-    test_negation();
-    test_division();
-    test_division_by_zero();
-    test_multiplication();
-}
 
 static void test_addition() {
   bool result = evaluate("+ 1 2", lval_num(3));
+  assert(result && "test_addition");
+}
+
+static void test_subtraction() {
+  bool result = evaluate("- 2 1", lval_num(1));
   assert(result && "test_addition");
 }
 
@@ -30,7 +22,8 @@ static void test_negation() {
 
 static void test_division_by_zero() {
   bool result   = evaluate("/ 10 0", lval_err("Division by zero."));
-  assert(result && "test_division_by_zero");
+  bool result2   = evaluate("/ (+ 5 5) (- 5 5)", lval_err("Division by zero."));
+  assert(result && result2 && "test_division_by_zero");
 }
 
 static void test_division() {
@@ -44,6 +37,43 @@ static void test_multiplication() {
   bool result2  = evaluate("* 0 5", lval_num(0));
   assert(result && result2 && "test_multiplication");
 }
+
+static void test_equality() {
+  lval* True  = lval_num(1);
+  lval* False = lval_num(0);
+
+  bool eq_true  = evaluate("== 2 2", True);
+  bool eq_false = evaluate("== 2 1", False);
+
+  bool ne_true  = evaluate("!= 1 2", True);
+  bool ne_false = evaluate("!= 1 1", False);  
+
+  bool ge_true  = evaluate(">= 2 2", True);
+  bool ge_true2 = evaluate(">= 3 2", True);
+  bool ge_false = evaluate(">= 1 2", False);
+  
+  bool le_true  = evaluate("<= 1 2", True);
+  bool le_true2 = evaluate("<= 2 2", True);
+  bool le_false = evaluate("<= 3 2", False);
+
+  assert(eq_true && eq_false 
+      && ne_true && ne_false
+      && ge_true && ge_true2 && ge_false
+      && le_true && le_true2 && le_false
+      && "test_equality");
+}
+
+int main() {
+    test_addition();
+    test_subtraction();
+    test_negation();
+    test_division();
+    test_division_by_zero();
+    test_multiplication();
+    test_equality();
+}
+
+// helper functions
 
 bool evaluate(char* input, lval* expected) {
 
@@ -83,7 +113,7 @@ bool evaluate(char* input, lval* expected) {
 
   lenv_del(e);
   mpc_cleanup(6, Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
-  
+
   return result;
 }
 
