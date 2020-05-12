@@ -46,20 +46,30 @@ static void test_equality() {
   bool eq_false = evaluate("== 2 1", False);
 
   bool ne_true  = evaluate("!= 1 2", True);
-  bool ne_false = evaluate("!= 1 1", False);  
+  bool ne_false = evaluate("!= 1 1", False);
 
-  bool ge_true  = evaluate(">= 2 2", True);
-  bool ge_true2 = evaluate(">= 3 2", True);
+  bool gt_true  = evaluate("> 3 2", True);
+  bool gt_true2 = evaluate("> 2 2", False);
+  bool gt_false = evaluate("> 1 2", False);
+
+  bool ge_true  = evaluate(">= 3 2", True);
+  bool ge_true2 = evaluate(">= 2 2", True);
   bool ge_false = evaluate(">= 1 2", False);
   
   bool le_true  = evaluate("<= 1 2", True);
   bool le_true2 = evaluate("<= 2 2", True);
   bool le_false = evaluate("<= 3 2", False);
 
+  bool lt_true  = evaluate("< 1 2", True);
+  bool lt_true2 = evaluate("< 2 2", False);
+  bool lt_false = evaluate("< 3 2", False);
+
   assert(eq_true && eq_false 
       && ne_true && ne_false
       && ge_true && ge_true2 && ge_false
+      && gt_true && gt_true2 && gt_false
       && le_true && le_true2 && le_false
+      && lt_true && lt_true2 && lt_false
       && "test_equality");
 }
 
