@@ -1,7 +1,9 @@
 #include "../lib/mpc.h"
 
-enum { LVAL_ERR, LVAL_NUM, LVAL_SYM,
-       LVAL_FUN, LVAL_SEXPR, LVAL_QEXPR };
+enum {  LVAL_ERR, 
+        LVAL_NUM, LVAL_STR, 
+        LVAL_SYM, LVAL_FUN,
+        LVAL_SEXPR, LVAL_QEXPR };
 
 struct lval;
 struct lenv;
@@ -16,6 +18,7 @@ struct lval {
   long num;
   char* err;
   char* sym;
+  char* str;
   
   // function
   lbuiltin builtin;
