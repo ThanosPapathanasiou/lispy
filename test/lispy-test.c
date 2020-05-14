@@ -1,4 +1,4 @@
-#include "../src/lval.h"
+#include "../src/lispy.c"
 #include <assert.h>
 #include <stdbool.h>
 
